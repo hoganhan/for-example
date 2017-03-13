@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="js/jquery2.0.0.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('.btn').click(function () {
+                var $val = $('.txt').val();
+                $.ajax({
+                    "url": "js/resource.json",
+                    "success": function (result) {
+                        for (var i=0;i<result.length;i++){
+                            if(result[i].name.indexOf($val) != -1) {
+                                var oImg = $("<img />");
+                                oImg.attr('src',result[i].src);
+                                $('.showArea').append(oImg);
+                            } else if (result[i].author.indexOf($val) != -1) {
+                                var oImg = $("<img />");
+                                oImg.attr('src',result[i].src);
+                                $('.showArea').append(oImg);
+                            }
+                        }
+                    }
+                })
+            })
+
+
+        })
+    </script>
+</head>
+<body>
+<input type="text" class="txt" />
+<button type="button" class="btn">搜索</button>
+<div class="showArea">
+
+</div>
+</body>
+</html>

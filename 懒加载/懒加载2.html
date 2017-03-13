@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lazyload 3</title>
+    <style>
+        img {
+            display: block;
+            margin-bottom: 50px;
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+<img src="../images/loading.gif" data-src="images/1.jpg">
+<img src="../images/loading.gif" data-src="images/2.jpg">
+<img src="../images/loading.gif" data-src="images/3.jpg">
+<img src="../images/loading.gif" data-src="images/4.jpg">
+<img src="../images/loading.gif" data-src="images/5.jpg">
+<img src="../images/loading.gif" data-src="images/6.jpg">
+<img src="../images/loading.gif" data-src="images/7.jpg">
+<img src="../images/loading.gif" data-src="images/8.jpg">
+<img src="../images/loading.gif" data-src="images/9.jpg">
+<img src="../images/loading.gif" data-src="images/10.jpg">
+<script>
+    function query(selector) {
+        return Array.from(document.querySelectorAll(selector));
+    }
+    var io = new IntersectionObserver(function(items) {
+        items.forEach(function(item) {
+            var target = item.target;
+            if(target.getAttribute('src') == 'images/loading.gif') {
+                target.src = target.getAttribute('data-src');
+            }
+        })
+    });
+    query('img').forEach(function(item) {
+        io.observe(item);
+    });
+</script>
+</body>
+</html>

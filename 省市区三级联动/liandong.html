@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../jquery2.0.0.min.js"></script>
+    <script>
+
+        $(function () {
+            function setPro(){
+                $.ajax({
+                    url: "js/pro.json",
+                    success: function (data) {
+                        for (var i=0;i<data.length;i++) {
+                            var proOpt = $('<option value="'+ data[i].ProID +'">'+ data[i].ProName +'</option>');
+                            $('#sheng').append(proOpt);
+                        }
+                    }
+                })
+                $('#sheng').change(function () {
+                    $.ajax({
+                        url: "js/city.json",
+                        success: function (data) {
+
+                            if ($('#sheng').val() == 1 || $('#sheng').val() == 2 || $('#sheng').val() == 9 || $('#sheng').val() == 27) {
+
+                            } else {
+                                $('#shi').css('display','inline');
+                            }
+
+                            $('#shi').empty();
+                            $('#shi').append($('<option value="0">请选择</option>'));;
+                            $('#qu').empty();
+                            $('#qu').append($('<option value="0">请选择</option>'));
+
+                            for (var i=0;i<data.length;i++) {
+                                if ($('#sheng').val() == data[i].ProID) {
+                                    var cityOpt = $('<option value="'+ data[i].CityID +'">'+data[i].CityName+'</option>');
+                                    $('#shi').append(cityOpt);
+                                }
+                            }
+                        }
+                    });
+
+                    //如果选择的是4个直辖市
+                    if ( $(this).val() == 1 || $(this).val() == 2 || $(this).val() == 9 || $(this).val() == 27 ) {
+                        $.ajax({
+                            url: 'js/district.json',
+                            success: function (data) {
+                                $('#qu').empty();
+                                $('#shi').css('display','none');  //inlineBlock
+                                for (var i=0;i<data.length;i++) {
+                                    if ($('#sheng').val() == data[i].CityID) {
+                                        var districtOpt = $('<option value="'+ data[i].Id +'">'+data[i].DisName+'</option>');
+                                        $('#qu').append(districtOpt);
+                                    }
+                                }
+                            }
+                        })
+                    }
+                })
+
+                $('#shi').change(function () {
+                    $.ajax({
+                        url: 'js/district.json',
+                        success: function (data) {
+                            $('#qu').empty();
+                            $('#qu').append($('<option value="0">请选择</option>'))
+                            for (var i=0;i<data.length;i++){
+                                if ($('#shi').val() == data[i].CityID) {
+                                    var districtOpt = $('<option value="'+ data[i].Id +'">'+data[i].DisName+'</option>');
+                                    $('#qu').append(districtOpt);
+                                }
+                            }
+                        }
+                    })
+                })
+            }
+            setPro();
+
+        })
+
+    </script>
+</head>
+<body>
+<select id="sheng">
+    <option value="0">请选择</option>
+</select>
+<select id="shi">
+    <option value="0">请选择</option>
+</select>
+<select id="qu">
+    <option value="0">请选择</option>
+</select>
+</body>
+</html>
